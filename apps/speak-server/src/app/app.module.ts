@@ -1,18 +1,21 @@
 import { Module, CacheModule } from '@nestjs/common';
-import * as redisStore from 'cache-manager-redis-store';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { VoicesModule } from './voices/voices.module';
+import { RedisStoreService } from './services/redis-store/redis-store.service';
+import { VoicesService } from './voices/voices.service';
+import { VoicesController } from './voices/voices.controller';
+import { SpeakService } from './speak/speak.service';
+import { SpeakController } from './speak/speak.controller';
 
 @Module({
-  imports: [VoicesModule,   CacheModule.register<RedisClientOptions>({
-    store: redisStore,
-
-    // Store-specific configuration:
-    host: 'localhost',
-    port: 6379,
-  }),],
+  imports: [
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 86400,
+      max: 1000,
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
