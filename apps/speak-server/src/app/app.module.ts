@@ -16,7 +16,7 @@ import { SpeakController } from './speak/speak.controller';
       max: 1000,
     }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, VoicesController, SpeakController],
+  providers: [AppService, RedisStoreService, VoicesService, SpeakService],
 })
 export class AppModule {}
