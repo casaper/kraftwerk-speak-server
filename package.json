@@ -2,7 +2,10 @@
   "name": "kraftwerk-hal",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "speak-server:serve:dev": "nx run speak-server:serve:development",
+    "speak-server:build": "nx run speak-server:build"
+  },
   "private": true,
   "dependencies": {
     "@nestjs/common": "^9.0.0",
