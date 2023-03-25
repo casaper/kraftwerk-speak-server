@@ -41,3 +41,4 @@ Thumbs.db
 .vscode
 .envrc
 .envrc-scripts
+.env
