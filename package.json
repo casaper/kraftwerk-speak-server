@@ -8,7 +8,9 @@
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@types/play-sound": "^1.1.0",
     "axios": "^1.0.0",
+    "play-sound": "^1.1.5",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "tslib": "^2.3.0"

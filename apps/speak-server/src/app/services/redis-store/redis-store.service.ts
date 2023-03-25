@@ -16,15 +16,20 @@ const failsaveJsonParse = (jsonString: string) => {
 export class RedisStoreService {
   private client = createClient({ url: 'redis://127.0.0.1:6379' });
   private connected = false;
-  private readonly cacheSeconds = 10 * 60 * 60 * 24;
+  private readonly cacheDays = 60;
+  private readonly cacheSeconds = this.cacheDays * 86400;
 
-  async storeRequestResult<TReq extends object, TRes>(
-    request: TReq,
+  getKey(requestPayload: object, method?: string, klass?: string): string {
+    return hash({ requestPayload, method, klass });
+  }
+
+  async storeRequestResult<TRes>(
+    key: string,
     response: TRes
   ): Promise<boolean> {
     await this.connect();
     const setResult = await this.client.set(
-      hash(request),
+      key,
       JSON.stringify({
         validUntil: addSeconds(new Date(), this.cacheSeconds),
         response,
@@ -33,10 +38,7 @@ export class RedisStoreService {
     return setResult === 'OK';
   }
 
-  async getRequestResult<TRes, TReq extends object = any>(
-    request: TReq
-  ): Promise<TRes | null> {
-    const key = hash(request);
+  async getRequestResult<TRes>(key: string): Promise<TRes | null> {
     await this.connect();
     const result = await this.client.get(key);
     if (!result) {
